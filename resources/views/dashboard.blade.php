@@ -6,8 +6,8 @@
 
   <form id="form-filtros" class="row mb-4">
     <div class="col-md-4">
-      <label for="fecha" class="form-label">Fecha</label>
-      <input type="date" class="form-control" id="fecha" name="fecha" value="<?= date('Y-m-d') ?>" required>
+      <label for="date-filtro" class="form-label">Fecha</label>
+      <input type="date" class="form-control" id="date-filtro" name="date-filtro" value="<?= date('Y-m-d') ?>" required>
     </div>
     <div class="col-md-4 d-flex align-items-end">
       <button type="submit" id="filtrar" class="btn btn-primary mb-0">Filtrar</button>
@@ -146,272 +146,111 @@
   <script>
     window.onload = function() {
 
-      let dateHoy = document.getElementById('fecha').value;
+      let dateHoy = document.getElementById('date-filtro').value;
       
       document.querySelectorAll('.date').forEach(objeto => {
           objeto.innerText = dateHoy;
       });
 
-      let ctx1 = document.getElementById("chart-line-total").getContext("2d");
-      let ctx2 = document.getElementById("chart-line-calculadora").getContext("2d");
-      let ctx3 = document.getElementById("chart-line-general").getContext("2d");
+      const ctx1 = document.getElementById("chart-line-total").getContext("2d");
+      const ctx2 = document.getElementById("chart-line-calculadora").getContext("2d");
+      const ctx3 = document.getElementById("chart-line-general").getContext("2d");
 
-      let gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
-      gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
-      gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-      gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); 
-
-      let gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
-      gradientStroke2.addColorStop(1, 'rgba(203,12,159,0.2)');
-      gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-      gradientStroke2.addColorStop(0, 'rgba(203,12,159,0)'); 
-
-      let gradientStroke3 = ctx3.createLinearGradient(0, 230, 0, 50);
-      gradientStroke3.addColorStop(1, 'rgba(203,12,159,0.2)');
-      gradientStroke3.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-      gradientStroke3.addColorStop(0, 'rgba(203,12,159,0)');
-
-      let leadsTotal = Array(24).fill(0);
-      let leadsCalculadora = Array(24).fill(0);
-      let leadsGeneral = Array(24).fill(0);
+      let leadsInicial = Array(24).fill(0);
 
       let labels = [
-            "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00",
-            "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
-            "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"
+        "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00",
+        "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
+        "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"
       ];
 
-      const graficoTotal = new Chart(ctx1, {
-        type: "line",
-        data: {
-          labels: labels,
-          datasets: [{
-              label: "Leads Total",
-              tension: 0.4,
-              borderWidth: 0,
-              pointRadius: 0,
-              borderColor: "#cb0c9f",
-              borderWidth: 3,
-              backgroundColor: gradientStroke1,
-              fill: true,
-              data: leadsTotal,
-              maxBarThickness: 6
-            }
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            }
-          },
-          interaction: {
-            intersect: false,
-            mode: 'index',
-          },
-          scales: {
-            y: {
-              grid: {
-                drawBorder: false,
-                display: true,
-                drawOnChartArea: true,
-                drawTicks: false,
-                borderDash: [5, 5]
-              },
-              ticks: {
-                display: true,
-                padding: 10,
-                color: '#b2b9bf',
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
-                },
+      // Función para construir grafica de linea
+      function createGraphLine (ctxn, leadsInicial, labels, label){
+
+        const gradientStroke1 = ctxn.createLinearGradient(0, 230, 0, 50);
+        gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+        gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+        gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); 
+
+        return new Chart(ctxn, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [{
+                label: label,
+                tension: 0.4,
+                borderWidth: 0,
+                pointRadius: 0,
+                borderColor: "#cb0c9f",
+                borderWidth: 3,
+                backgroundColor: gradientStroke1,
+                fill: true,
+                data: leadsInicial,
+                maxBarThickness: 6
               }
-            },
-            x: {
-              grid: {
-                drawBorder: false,
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
                 display: false,
-                drawOnChartArea: false,
-                drawTicks: false,
-                borderDash: [5, 5]
-              },
-              ticks: {
-                display: true,
-                color: '#b2b9bf',
-                padding: 20,
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
-                },
               }
             },
+            interaction: {
+              intersect: false,
+              mode: 'index',
+            },
+            scales: {
+              y: {
+                grid: {
+                  drawBorder: false,
+                  display: true,
+                  drawOnChartArea: true,
+                  drawTicks: false,
+                  borderDash: [5, 5]
+                },
+                ticks: {
+                  display: true,
+                  padding: 10,
+                  color: '#b2b9bf',
+                  font: {
+                    size: 11,
+                    family: "Open Sans",
+                    style: 'normal',
+                    lineHeight: 2
+                  },
+                }
+              },
+              x: {
+                grid: {
+                  drawBorder: false,
+                  display: false,
+                  drawOnChartArea: false,
+                  drawTicks: false,
+                  borderDash: [5, 5]
+                },
+                ticks: {
+                  display: true,
+                  color: '#b2b9bf',
+                  padding: 20,
+                  font: {
+                    size: 11,
+                    family: "Open Sans",
+                    style: 'normal',
+                    lineHeight: 2
+                  },
+                }
+              },
+            },
           },
-        },
-      });
+        });
 
-      const graficoCalculadora = new Chart(ctx2, {
-        type: "line",
-        data: {
-          labels: labels,
-          datasets: [{
-              label: "Leads Calculadora",
-              tension: 0.4,
-              borderWidth: 0,
-              pointRadius: 0,
-              borderColor: "#cb0c9f",
-              borderWidth: 3,
-              backgroundColor: gradientStroke1,
-              fill: true,
-              data: leadsCalculadora,
-              maxBarThickness: 6
-            }
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            }
-          },
-          interaction: {
-            intersect: false,
-            mode: 'index',
-          },
-          scales: {
-            y: {
-              grid: {
-                drawBorder: false,
-                display: true,
-                drawOnChartArea: true,
-                drawTicks: false,
-                borderDash: [5, 5]
-              },
-              ticks: {
-                display: true,
-                padding: 10,
-                color: '#b2b9bf',
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
-                },
-              }
-            },
-            x: {
-              grid: {
-                drawBorder: false,
-                display: false,
-                drawOnChartArea: false,
-                drawTicks: false,
-                borderDash: [5, 5]
-              },
-              ticks: {
-                display: true,
-                color: '#b2b9bf',
-                padding: 20,
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
-                },
-              }
-            },
-          },
-        },
-      });
+      }
 
-      const graficoGeneral = new Chart(ctx3, {
-        type: "line",
-        data: {
-          labels: labels,
-          datasets: [{
-              label: "Leads General",
-              tension: 0.4,
-              borderWidth: 0,
-              pointRadius: 0,
-              borderColor: "#cb0c9f",
-              borderWidth: 3,
-              backgroundColor: gradientStroke1,
-              fill: true,
-              data: leadsGeneral,
-              maxBarThickness: 6
-            }
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            }
-          },
-          interaction: {
-            intersect: false,
-            mode: 'index',
-          },
-          scales: {
-            y: {
-              grid: {
-                drawBorder: false,
-                display: true,
-                drawOnChartArea: true,
-                drawTicks: false,
-                borderDash: [5, 5]
-              },
-              ticks: {
-                display: true,
-                padding: 10,
-                color: '#b2b9bf',
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
-                },
-              }
-            },
-            x: {
-              grid: {
-                drawBorder: false,
-                display: false,
-                drawOnChartArea: false,
-                drawTicks: false,
-                borderDash: [5, 5]
-              },
-              ticks: {
-                display: true,
-                color: '#b2b9bf',
-                padding: 20,
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
-                },
-              }
-            },
-          },
-        },
-      });
-
-      // Función para obtener los datos del dashboard (leads totales, leads calculadora, leads general)
-      function dateCiclo(date) {
-
-        leadsTotal = Array(24).fill(0);
-        leadsCalculadora = Array(24).fill(0);
-        leadsGeneral = Array(24).fill(0);
+      // Función para obtener leads totales, leads calculadora, leads general
+      function getLeads(date) {
 
         return fetch('/leads-ciclo/' + date)
         .then(response => {
@@ -423,45 +262,8 @@
           }
         })
         .then(data => {
-          console.log(data);
-
-          let total = 0;
-          let calculadora = 0;
-          let general = 0;
-
-          data.datos.leads_calculadora.forEach((element, index) => {
-            leadsCalculadora[index] = element.total;
-            calculadora = calculadora + element.total;  
-          });
-
-          data.datos.leads_general.forEach((element, index) => {
-            leadsGeneral[index] = element.total;
-            general = general + element.total;
-          });
-
-          data.datos.leads_total.forEach((element, index) => {
-            leadsTotal[index] = element.total;
-            total = total + element.total;
-          });
-
-          console.log('Leads Calculadora:', leadsCalculadora);
-          console.log('Leads General:', leadsGeneral);
-          console.log('Leads Total:', leadsTotal);
-
-          document.getElementById("leads-total").innerText = total;
-          document.getElementById("leads-calculadora").innerText = calculadora;
-          document.getElementById("leads-general").innerText = general;
-
-          graficoTotal.data.datasets[0].data = leadsTotal;
-          graficoTotal.update();
-
-          graficoCalculadora.data.datasets[0].data = leadsCalculadora;
-          graficoCalculadora.update();
-
-          graficoGeneral.data.datasets[0].data = leadsGeneral;
-          graficoGeneral.update();
-
-          return true;
+          // console.log(data);
+          return data.datos;
         })
         .catch(error => {
           console.error('Error:', error);
@@ -469,28 +271,59 @@
         });
       }
 
-      dateCiclo(dateHoy);
+      // Función para actualizar graficas de linea
+      function updateDataGraph(dataLeads, graphN, idIconLeads){
+
+        let leadsTotal = 0;
+        let leadsInicial = Array(24).fill(0);
+
+        dataLeads.forEach((element, index) => {
+          leadsInicial[index] = element.total;
+          leadsTotal = leadsTotal + element.total;  
+        });
+
+        console.log('Leads:', leadsInicial);
+
+        document.getElementById(idIconLeads).innerText = leadsTotal;
+
+        graphN.data.datasets[0].data = leadsInicial;
+        graphN.update();
+      }
+
+      // Graficas de linea
+      const GraphTotal = createGraphLine(ctx1, leadsInicial, labels, 'Leads Totales');
+      const GraphCalculadora = createGraphLine(ctx2, leadsInicial, labels, 'Leads Calculadora');
+      const GraphGeneral = createGraphLine(ctx3, leadsInicial, labels, 'Leads General');
+
+      // Actualizamos datos de graficas de linea
+      function allUpdateGraph(date){
+
+        return getLeads(date).then(data => {
+
+          updateDataGraph(data.leads_total, GraphTotal, 'leads-total');
+          updateDataGraph(data.leads_calculadora, GraphCalculadora, 'leads-calculadora');
+          updateDataGraph(data.leads_general, GraphGeneral, 'leads-general');
+          return true;
+        })
+      }
+
+      allUpdateGraph(dateHoy);
 
       document.getElementById('form-filtros').addEventListener('submit', function(event) {
         
         event.preventDefault();
-        let date = document.getElementById('fecha').value;
         
+        let dateFiltro = document.getElementById('date-filtro').value;
+       
         document.querySelectorAll('.date').forEach(objeto => {
-            objeto.innerText = date;
+            objeto.innerText = dateFiltro;
         });
 
         document.getElementById("filtrar").disabled = true;
 
-        dateCiclo(date).then(resultado => {
-          if (resultado) {
-            console.log('Datos actualizados para la fecha:', date);
-          } else {
-            console.log('No se pudieron actualizar los datos para la fecha:', date);
-          }
+        allUpdateGraph(dateFiltro).then(response =>{
           document.getElementById("filtrar").disabled = false;
         });
-
       });
 
     }

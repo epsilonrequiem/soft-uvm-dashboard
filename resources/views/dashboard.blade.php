@@ -10,7 +10,7 @@
       <input type="date" class="form-control" id="date-filtro" name="date-filtro" value="<?= date('Y-m-d') ?>" required>
     </div>
     <div class="col-md-4 d-flex align-items-end">
-      <button type="submit" id="filtrar" class="btn btn-primary mb-0">Filtrar</button>
+      <button type="submit" id="filtrar" class="btn btn-uvm bg-gradient-uvm mb-0">Filtrar</button>
     </div>
   </form>
 
@@ -33,7 +33,7 @@
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+              <div class="icon icon-shape bg-gradient-uvm shadow text-center border-radius-md">
                 <i class="ni ni-circle-08 text-lg opacity-10" aria-hidden="true"></i>
               </div>
             </div>
@@ -56,7 +56,7 @@
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+              <div class="icon icon-shape bg-gradient-uvm shadow text-center border-radius-md">
                 <i class="ni ni-circle-08 text-lg opacity-10" aria-hidden="true"></i>
               </div>
             </div>
@@ -79,7 +79,7 @@
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+              <div class="icon icon-shape bg-gradient-uvm shadow text-center border-radius-md">
                 <i class="ni ni-circle-08 text-lg opacity-10" aria-hidden="true"></i>
               </div>
             </div>
@@ -168,9 +168,9 @@
       function createGraphLine (ctxn, leadsInicial, labels, label){
 
         const gradientStroke1 = ctxn.createLinearGradient(0, 230, 0, 50);
-        gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
-        gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-        gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); 
+        gradientStroke1.addColorStop(1, 'rgba(215, 40, 47, 1)');
+        gradientStroke1.addColorStop(0.2, 'rgba(215, 40, 47, 0.5)');
+        gradientStroke1.addColorStop(0, 'rgba(215, 40, 47, 0.2)'); 
 
         return new Chart(ctxn, {
           type: "line",
@@ -181,7 +181,7 @@
                 tension: 0.4,
                 borderWidth: 0,
                 pointRadius: 0,
-                borderColor: "#cb0c9f",
+                borderColor: "#d7282f",
                 borderWidth: 3,
                 backgroundColor: gradientStroke1,
                 fill: true,

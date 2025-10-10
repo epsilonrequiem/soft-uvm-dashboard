@@ -1,0 +1,48 @@
+.color-close-uvm{
+    color: $dark;
+}
+.btn-uvm {
+    color: $soft-background-color;
+}
+.btn-uvm:hover {
+    color: $soft-background-color;
+}
+.bg-gradient-uvm {
+    background-image: linear-gradient(310deg, $uvm-1 0%, $uvm-2 100%);
+}
+.form-check-input-uvm:checked{
+    border-color: $uvm-1!important;
+    background-color: $uvm-1!important;
+}
+.text-uvm{
+    background-image: linear-gradient(135deg, $uvm-1, $uvm-2);
+} 
+.svg-imagen {
+    display: block;
+    opacity: .2;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+}
+.card-uvm{
+    box-shadow: 0 6px 14px 0 $gray-300!important;
+}
+.container-logo-uvm {
+    text-align: center;
+    .logo-uvm {
+        width: 170px;
+    }
+}
+.oblique {
+    border-bottom-left-radius: 0!important;
+}
+
+.font-12 {
+    font-size: 12px;
+}
+
+.btn-table-uvm{
+    margin: 0!important;
+    padding: 8px 12px!important;
+}

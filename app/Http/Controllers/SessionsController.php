@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 
 class SessionsController extends Controller
@@ -13,29 +15,44 @@ class SessionsController extends Controller
         return view('session.login-session');
     }
 
-    public function store()
+    public function store(Request $request)
     {
         $attributes = request()->validate([
             'email'=>'required|email',
             'password'=>'required' 
         ]);
+        
+        $user = User::where('email', $request->email)->first();
 
-        if(Auth::attempt($attributes))
-        {
-            session()->regenerate();
-            return redirect('dashboard')->with(['success'=>'You are logged in.']);
+        if (!$user) {
+            return back()->withErrors(['login' => 'Usuario no encontrado.']);
         }
-        else{
 
-            return back()->withErrors(['email'=>'Email or password invalid.']);
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['login' => 'Contraseña incorrecta.']);
         }
+
+        if ($user->status == 0) {
+            // dd($user);
+            return back()->withErrors(['login' => 'Acceso denegado.']);
+        }
+
+        Auth::login($user);
+        session()->regenerate();
+        session(['id_perfil' => $user->id_perfil]);
+
+        return redirect('dashboard')->with('success', 'Éxito');
+
     }
     
-    public function destroy()
+    public function destroy(Request $request)
     {
 
         Auth::logout();
 
-        return redirect('/login')->with(['success'=>'You\'ve been logged out.']);
+        $request->session()->invalidate(); 
+        $request->session()->regenerateToken();
+
+        return redirect('/login')->with(['success'=> 'Sección eliminada']);
     }
 }

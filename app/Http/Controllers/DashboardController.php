@@ -7,8 +7,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Exception;
 
-class CicloActiveController extends Controller
+class DashboardController extends Controller
 {
+
+    public function view()
+    {
+        return view('dashboard');
+    }
+
     /**
      * Test connection to ciclo_activo_web database
      */

@@ -157,6 +157,7 @@
       const ctx3 = document.getElementById("chart-line-general").getContext("2d");
 
       let leadsInicial = Array(24).fill(0);
+      let leadsInicialLast = Array(24).fill(0);
 
       let labels = [
         "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00",
@@ -165,12 +166,17 @@
       ];
 
       // Función para construir grafica de linea
-      function createGraphLine (ctxn, leadsInicial, labels, label){
+      function createGraphLine (ctxn, leadsInicial, label, leadsInicialLast, labelLast, labels){
 
         const gradientStroke1 = ctxn.createLinearGradient(0, 230, 0, 50);
         gradientStroke1.addColorStop(1, 'rgba(215, 40, 47, 1)');
         gradientStroke1.addColorStop(0.2, 'rgba(215, 40, 47, 0.5)');
         gradientStroke1.addColorStop(0, 'rgba(215, 40, 47, 0.2)'); 
+
+        const gradientStroke2 = ctxn.createLinearGradient(0, 230, 0, 50);
+        gradientStroke2.addColorStop(1, 'rgba(19, 17, 17, 1)');
+        gradientStroke2.addColorStop(0.2, 'rgba(143, 140, 140, 0.5)');
+        gradientStroke2.addColorStop(0, 'rgba(211, 180, 181, 0.2)'); 
 
         return new Chart(ctxn, {
           type: "line",
@@ -186,6 +192,18 @@
                 backgroundColor: gradientStroke1,
                 fill: true,
                 data: leadsInicial,
+                maxBarThickness: 6
+              },
+              {
+                label: labelLast,
+                tension: 0.4,
+                borderWidth: 0,
+                pointRadius: 0,
+                borderColor: "#00000",
+                borderWidth: 3,
+                backgroundColor: gradientStroke2,
+                fill: true,
+                data: leadsInicialLast,
                 maxBarThickness: 6
               }
             ],
@@ -272,37 +290,43 @@
       }
 
       // Función para actualizar graficas de linea
-      function updateDataGraph(dataLeads, graphN, idIconLeads){
+      function updateDataGraph(dataLeads, dataLeadsLast, graphN, idIconLeads){
 
         let leadsTotal = 0;
         let leadsInicial = Array(24).fill(0);
+        let leadsInicialLast = Array(24).fill(0);
 
         dataLeads.forEach((element, index) => {
           leadsInicial[index] = element.total;
           leadsTotal = leadsTotal + element.total;  
         });
 
-        console.log('Leads:', leadsInicial);
+        dataLeadsLast.forEach((element, index) => {
+          leadsInicialLast[index] = element.total;
+        });
+
+        // console.log('Leads:', leadsInicial);
 
         document.getElementById(idIconLeads).innerText = leadsTotal;
 
         graphN.data.datasets[0].data = leadsInicial;
+        graphN.data.datasets[1].data = leadsInicialLast;
         graphN.update();
       }
 
       // Graficas de linea
-      const GraphTotal = createGraphLine(ctx1, leadsInicial, labels, 'Leads Totales');
-      const GraphCalculadora = createGraphLine(ctx2, leadsInicial, labels, 'Leads Calculadora');
-      const GraphGeneral = createGraphLine(ctx3, leadsInicial, labels, 'Leads General');
+      const GraphTotal = createGraphLine(ctx1, leadsInicial,  'Leads Totales', leadsInicialLast,  'Leads Totales Pasado', labels);
+      const GraphCalculadora = createGraphLine(ctx2, leadsInicial, 'Leads Calculadora', leadsInicialLast, 'Leads Calculadora Pasado', labels);
+      const GraphGeneral = createGraphLine(ctx3, leadsInicial, 'Leads General', leadsInicialLast, 'Leads General Pasado', labels);
 
       // Actualizamos datos de graficas de linea
       function allUpdateGraph(date){
 
         return getLeads(date).then(data => {
 
-          updateDataGraph(data.leads_total, GraphTotal, 'leads-total');
-          updateDataGraph(data.leads_calculadora, GraphCalculadora, 'leads-calculadora');
-          updateDataGraph(data.leads_general, GraphGeneral, 'leads-general');
+          updateDataGraph(data.leads_total, data.leads_total_last, GraphTotal, 'leads-total');
+          updateDataGraph(data.leads_calculadora, data.leads_calculadora_last, GraphCalculadora, 'leads-calculadora');
+          updateDataGraph(data.leads_general, data.leads_general_last, GraphGeneral, 'leads-general');
           return true;
         })
       }

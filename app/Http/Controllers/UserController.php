@@ -6,9 +6,9 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\QueryException;
 use App\Models\User;
 use Exception;
-use QueryException;
 
 class UserController extends Controller
 {

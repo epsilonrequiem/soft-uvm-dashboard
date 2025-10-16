@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
 	
 	Route::get('/dashboard', [DashboardController::class, 'view'])->name('dashboard');
 	Route::get('/pruebaciclo', [DashboardController::class, 'pruebaCiclo']);
-	Route::get('/leads-ciclo/{date}', [DashboardController::class, 'leadsCiclo']);
+	Route::get('/leads-ciclo', [DashboardController::class, 'leadsCiclo']);
 
 	Route::get('/usuarios', [UserController::class, 'create'])->name('usuarios');
 	Route::get('/usuarios-lista', [UserController::class, 'index']);
@@ -41,8 +41,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/usuario/{id}', [UserController::class, 'update']);
 	Route::put('/usuario-status/{id}', [UserController::class, 'updateEstatus']);
 
-	Route::get('/logout', [SessionsController::class, 'destroy']);
+	// Catalogos
 	Route::get('/perfiles', [CatalogController::class, 'getPerfiles']);
+	Route::get('/campus', [CatalogController::class, 'getCampus']);
+	Route::get('/programas', [CatalogController::class, 'getProgramas']);
+	Route::get('/years', [CatalogController::class, 'getYears']);
+
+	Route::get('/logout', [SessionsController::class, 'destroy']);
 
 	// Route::get('billing', function () {
 	// 	return view('billing');

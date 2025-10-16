@@ -23298,6 +23298,10 @@ pre[class*=language-] {
   background-image: linear-gradient(310deg, #d7282f 0%, #b22227 100%);
 }
 
+.bg-gradient-uvm-alt {
+  background-image: linear-gradient(310deg, #131111 0%, #8F8C8C 100%);
+}
+
 .form-check-input-uvm:checked {
   border-color: #d7282f !important;
   background-color: #d7282f !important;

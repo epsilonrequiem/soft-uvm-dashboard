@@ -53,6 +53,7 @@ class CatalogController extends Controller
             $campus = DB::connection('mysqlciclo')
             ->table('campus')
             ->select(DB::raw('crm_nombre as campus'))
+            ->where('id', '!=', 21)
             ->get();
 
             $response['data'] = $campus;

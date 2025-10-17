@@ -59,8 +59,8 @@ class DashboardController extends Controller
 
         $fechaInicio = $request->input('fechaInicio');
         $fechaFin = $request->input('fechaFin');
-        $campus = $request->input('campus');
-        $programa = $request->input('programa');
+        $campus = json_decode($request->input('campus'), true);
+        $programa = json_decode($request->input('programa'), true);
         
         $tipo = 2; // por dia
         // Validamos sin las fechas son iguales
@@ -85,12 +85,12 @@ class DashboardController extends Controller
             ->where('urlreferrer', 'LIKE', '%uvm.mx%')        
             ->whereNotIn('banner', ['HB_REACT', 'HB-WA-REACT']);
 
-            if ($campus != 'TODOS') {
-                $leads->where('campus', '=', $campus);        
+            if (!in_array('TODOS', $campus)) {
+                $leads->whereIN('campus', $campus);        
             }
 
-            if ($programa != 'TODOS') {
-                $leads->where('carrera', '=', $programa);        
+            if (!in_array('TODOS', $programa)) {
+                $leads->whereIN('carrera', $programa);        
             }
 
             $leads->whereBetween('fechaRegistro', [$fechaInicio.' 00:00:00', $fechaFin.' 23:59:59']);
@@ -126,12 +126,12 @@ class DashboardController extends Controller
             ->where('urlreferrer', 'LIKE', '%uvm.mx%')        
             ->whereNotIn('banner', ['HB_REACT', 'HB-WA-REACT']);
 
-            if ($campus != 'TODOS') {
-                $leads_last->where('campus', '=', $campus);        
+            if (!in_array('TODOS', $campus)) {
+                $leads_last->whereIN('campus', $campus);        
             }
 
-            if ($programa != 'TODOS') {
-                $leads_last->where('carrera', '=', $programa);        
+            if (!in_array('TODOS', $programa)) {
+                $leads_last->whereIN('carrera', $programa);        
             }
 
             $leads_last->whereBetween('fechaRegistro', [$fecha_last_inicio.' 00:00:00', $fecha_last_fin.' 23:59:59']);

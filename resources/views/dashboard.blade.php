@@ -10,17 +10,17 @@
 
     <div class="row">
 
-      <div class="col-md-3">
+      <div class="col-md-5">
         <label for="id_campus">Campus</label>
-        <select name="id_campus" id="id_campus" class="form-control" aria-label="campus" aria-describedby="campus" required>
-          <option value="TODOS">TODOS LOS CAMPUS</option>
+        <select multiple name="id_campus" class="select-invisible" id="id_campus" aria-label="campus" aria-describedby="campus">
+          <option value="TODOS">TODOS</option>
         </select>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-7">
         <label for="id_programa">Programa</label>
-        <select name="id_programa" id="id_programa" class="form-control" aria-label="programa" aria-describedby="programa" required>
-          <option value="TODOS">TODOS LOS PROGRAMAS</option>
+        <select multiple name="id_programa" class="select-invisible" id="id_programa" aria-label="programa" aria-describedby="programa">
+          <option value="TODOS">TODOS</option>
         </select>
       </div>
 
@@ -279,6 +279,28 @@
         }
       });
 
+      const selectCampus = document.getElementById('id_campus');
+      
+      const choicesCampus = new Choices(selectCampus, {
+        removeItemButton: true,
+        shouldSort: true,
+        itemSelectText: 'Presiona para seleccionar',
+        placeholder: false,
+      });
+
+      selectCampus.classList.remove('select-invisible');
+
+      const select = document.getElementById('id_programa');
+      
+      const choices = new Choices(select, {
+        removeItemButton: true,
+        shouldSort: true,
+        itemSelectText: 'Presiona para seleccionar',
+        placeholder: false,
+      });
+
+      select.classList.remove('select-invisible');
+
       // Función para calcular dias entre un rango de dos fechas
       function diasEntreFechas(fechaInicio, fechaFin) {
         const inicio = new Date(fechaInicio);
@@ -392,14 +414,24 @@
               // console.log(users);
               if (campus) {
               
-                  let selectCampus = `<option value="TODOS">TODOS LOS CAMPUS</option>`;
+                  let selectCampusObj = [
+                    {                        
+                      'value': 'TODOS', 
+                      'lable': 'TODOS',
+                    }
+                  ];
 
                   campus.forEach(objeto => {
-                      selectCampus += 
-                      `<option value="${objeto.campus}">${objeto.campus}</option>` 
+                      selectCampusObj.unshift(
+                        {
+                          'value': objeto.campus, 
+                          'lable': objeto.campus 
+                        }
+                      );
                   });
                   
-                  document.getElementById('id_campus').innerHTML = selectCampus;
+                  choicesCampus.setChoices(selectCampusObj, 'value', 'label', true);
+                  choicesCampus.setChoiceByValue('TODOS');
               }
           });
       }
@@ -423,18 +455,28 @@
           .catch(error => {
               console.error('Error:', error);
               return false;
-          }).then(campus => {
+          }).then(programas => {
               // console.log(users);
-              if (campus) {
+              if (programas) {
               
-                  let selectProgramas = `<option value="TODOS">TODOS LOS PROGRAMAS</option>`;
+                  let selectProgramas = [
+                    {                        
+                      'value': 'TODOS', 
+                      'lable': 'TODOS',
+                    }
+                  ];
 
-                  campus.forEach(objeto => {
-                      selectProgramas += 
-                      `<option value="${objeto.carrera}">${objeto.carrera}</option>` 
+                  programas.forEach(objeto => {                                        
+                      selectProgramas.unshift(
+                        {
+                          'value': objeto.carrera, 
+                          'lable': objeto.carrera 
+                        }
+                      );
                   });
-                  
-                  document.getElementById('id_programa').innerHTML = selectProgramas;
+
+                  choices.setChoices(selectProgramas, 'value', 'label', true);
+                  choices.setChoiceByValue('TODOS');
               }
           });
       }
@@ -773,8 +815,8 @@
       let objData = {
         dateFiltro: dateHoy,
         dateFiltroFin: dateHoy,
-        campus: 'TODOS',
-        programa: 'TODOS'
+        campus: '["TODOS"]',
+        programa: '["TODOS"]'
       };
       
       allUpdateGraph(objData);
@@ -806,13 +848,24 @@
             throw "mayor";
           }
 
-          let campus = document.getElementById('id_campus').value;
-          let programa = document.getElementById('id_programa').value;
-          
+          // let campus = document.getElementById('id_campus').value;
+          // let programa = document.getElementById('id_programa').value;
+
+          let campus = JSON.stringify(choicesCampus.getValue(true));
+          let programa = JSON.stringify(choices.getValue(true));
+
+          if (choicesCampus.getValue(true) == 0) {
+            throw "campus";
+          }
+
+          if (choices.getValue(true) == 0) {
+            throw "programa";
+          }
+
           let objData = {
             dateFiltro: dateFiltro,
             dateFiltroFin: dateFiltroFin,
-            campus: campus,
+            campus:  campus,
             programa: programa
           };
 
@@ -839,7 +892,11 @@
 
           if (error == 'mayor') {
             mensaje = 'La fecha inicio no puede ser mayor a la fecha final';          
-          } 
+          } else if(error == 'campus'){
+            mensaje = 'Selecciona un campus';          
+          } else if(error == 'programa'){
+            mensaje = 'Selecciona un programa';          
+          }
           
           Toast.fire({
             icon: "info",

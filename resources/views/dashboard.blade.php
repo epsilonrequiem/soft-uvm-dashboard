@@ -722,17 +722,45 @@
           let labels = obtenerFechasEnRango(dateFiltro, dateFiltroFin);
           let dias = diasEntreFechas(dateFiltro, dateFiltroFin);
           // console.log(dias)
+          
+          // Hacemos que el array de dataLeads coincida con los labels
+          const resultado = labels.map(fecha => {
+            const dato = dataLeads.find(d => d.hora === fecha);
+            return {
+              hora: fecha,
+              total: dato ? dato.total : 0
+            };
+          });
+          // Hacemos que el array de dataLeadsLast coincida con los labels
+          const resultadoLast = labels.map(fecha => {
+            // Convertir la fecha a objeto Date
+            const fechaObj = new Date(fecha);
+            
+            // Restar un año
+            fechaObj.setFullYear(fechaObj.getFullYear() - 1);
+            
+            // Formatear la fecha nuevamente a string (YYYY-MM-DD)
+            const fechaAjustada = fechaObj.toISOString().split('T')[0];
+
+            // Buscar el dato correspondiente
+            const dato = dataLeadsLast.find(d => d.hora === fechaAjustada);
+
+            return {
+              hora: fechaAjustada,
+              total: dato ? dato.total : 0
+            };
+          });
 
           let leadsInicial = Array(dias).fill(0);
           let leadsInicialLast = Array(dias).fill(0);
 
-          dataLeads.forEach((element, index) => {
+          resultado.forEach((element, index) => {
             leadsInicial[index] = element.total;
             // labels[index] = element.hora;
             leadsTotal = leadsTotal + element.total;  
           });
 
-          dataLeadsLast.forEach((element, index) => {
+          resultadoLast.forEach((element, index) => {
             leadsInicialLast[index] = element.total;
             leadsTotalLast = leadsTotalLast + element.total; 
           });

@@ -89,6 +89,25 @@
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+
+    const mediaQuery = window.matchMedia('(max-width: 1199.98px)');
+
+    let menuHamburguesa = document.getElementById('sidenav-main');
+    let botonHamburguesa = document.getElementById('iconNavbarSidenav');
+
+    botonHamburguesa.addEventListener('click', () => {
+        if (mediaQuery.matches) {
+            // Verifica si está visible
+            if (menuHamburguesa.style.transform === 'translateX(0px)' || menuHamburguesa.style.transform === 'translateX(0)') {
+                // Ocultar
+                menuHamburguesa.style.transform = 'translateX(-17.125rem)';
+            } else {
+                // Mostrar
+                menuHamburguesa.style.transform = 'translateX(0)';
+            }
+        }
+    });
+
   </script>
 
   <!-- Github buttons -->

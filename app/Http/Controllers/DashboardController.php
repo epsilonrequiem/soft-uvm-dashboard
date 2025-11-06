@@ -61,7 +61,10 @@ class DashboardController extends Controller
         $fechaFin = $request->input('fechaFin');
         $campus = json_decode($request->input('campus'), true);
         $programa = json_decode($request->input('programa'), true);
-        
+        $dominios = $request->input('dominios');
+        $paginas = json_decode($request->input('paginas'), true);
+        $banner = array_filter(explode(",", $request->input('banner', '')));
+
         $tipo = 2; // por dia
         // Validamos sin las fechas son iguales
         if ($fechaInicio == $fechaFin) {
@@ -82,8 +85,20 @@ class DashboardController extends Controller
             ->where('procesado', 1)
             ->where('nivelInteres', '!=', 'EC')
             ->where('urlreferrer', 'NOT LIKE', '%simulador%')
-            ->where('urlreferrer', 'LIKE', '%uvm.mx%')        
+            // ->where('urlreferrer', 'LIKE', '%uvm.mx%')        
             ->whereNotIn('banner', ['HB_REACT', 'HB-WA-REACT']);
+
+            if ($dominios != 'TODOS') {
+                if (!in_array('TODOS', $paginas)) {
+                    $leads->where(function ($q) use ($paginas) {
+                        foreach ($paginas as $pagina) {
+                            $q->orWhere('urlreferrer', '=', $pagina);
+                        }
+                    });        
+                } else {
+                    $leads->where('urlreferrer', 'LIKE', "%$dominios%");      
+                }   
+            } 
 
             if (!in_array('TODOS', $campus)) {
                 $leads->whereIN('campus', $campus);        
@@ -91,6 +106,10 @@ class DashboardController extends Controller
 
             if (!in_array('TODOS', $programa)) {
                 $leads->whereIN('carrera', $programa);        
+            }
+
+            if (count($banner) >= 1) {
+                $leads->whereIn('banner', $banner);
             }
 
             $leads->whereBetween('fechaRegistro', [$fechaInicio.' 00:00:00', $fechaFin.' 23:59:59']);
@@ -112,19 +131,29 @@ class DashboardController extends Controller
             // --------------------------------------------------------------------
 
             $fecha_ini = new DateTime($fechaInicio);
-            $fecha_ini->modify('-1 year');
-            $fecha_last_inicio = $fecha_ini->format('Y-m-d');
+            $fecha_last_inicio = $this->obtenerDiaMasCercanoDelAnioAnterior($fecha_ini);
 
             $fecha_fin = new DateTime($fechaFin);
-            $fecha_fin->modify('-1 year');
-            $fecha_last_fin = $fecha_fin->format('Y-m-d');
+            $fecha_last_fin =  $this->obtenerDiaMasCercanoDelAnioAnterior($fecha_fin);
 
             $leads_last = DB::connection('mysqlciclo')->table('dashboard_view')
             ->where('procesado', 1)
             ->where('nivelInteres', '!=', 'EC')
             ->where('urlreferrer', 'NOT LIKE', '%simulador%')
-            ->where('urlreferrer', 'LIKE', '%uvm.mx%')        
+            // ->where('urlreferrer', 'LIKE', '%uvm.mx%')        
             ->whereNotIn('banner', ['HB_REACT', 'HB-WA-REACT']);
+
+            if ($dominios != 'TODOS') {
+                if (!in_array('TODOS', $paginas)) {
+                    $leads_last->where(function ($q) use ($paginas) {
+                        foreach ($paginas as $pagina) {
+                            $q->orWhere('urlreferrer', '=', $pagina);
+                        }
+                    });        
+                } else {
+                    $leads_last->where('urlreferrer', 'LIKE', "%$dominios%");      
+                }   
+            } 
 
             if (!in_array('TODOS', $campus)) {
                 $leads_last->whereIN('campus', $campus);        
@@ -132,6 +161,10 @@ class DashboardController extends Controller
 
             if (!in_array('TODOS', $programa)) {
                 $leads_last->whereIN('carrera', $programa);        
+            }
+
+            if (count($banner) >= 1) {
+                $leads_last->whereIn('banner', $banner);
             }
 
             $leads_last->whereBetween('fechaRegistro', [$fecha_last_inicio.' 00:00:00', $fecha_last_fin.' 23:59:59']);
@@ -173,5 +206,34 @@ class DashboardController extends Controller
         }
 
         return response()->json($response, $codigo);
+    }
+
+    // Get day last
+    public function obtenerDiaMasCercanoDelAnioAnterior($fechaActual) {
+        // Día de la semana actual (1=Lunes, 7=Domingo)
+        $diaSemanaActual = (int)$fechaActual->format('N');
+
+        // Fecha un año antes
+        $fechaAnterior = (clone $fechaActual)->modify('-1 year');
+
+        // Si ya coincide el día, devolverla
+        if ((int)$fechaAnterior->format('N') === $diaSemanaActual) {
+            return $fechaAnterior->format('Y-m-d');
+        }
+
+        // Calcular diferencia hacia atrás y hacia adelante
+        $diferenciaAntes = $diaSemanaActual - (int)$fechaAnterior->format('N');
+        if ($diferenciaAntes < 0) $diferenciaAntes += 7;
+
+        $diferenciaDespues = 7 - $diferenciaAntes;
+
+        // Ajustar al más cercano
+        if ($diferenciaAntes <= $diferenciaDespues) {
+            $fechaAnterior->modify("+$diferenciaAntes days");
+        } else {
+            $fechaAnterior->modify("-$diferenciaDespues days");
+        }
+
+        return $fechaAnterior->format('Y-m-d');
     }
 }

@@ -105,7 +105,6 @@ class CatalogController extends Controller
         return response()->json(['response' => $response], $response['code']);
     }
 
-    
     public function getYears()
     {
 
@@ -121,6 +120,73 @@ class CatalogController extends Controller
             $years = Year::all();
 
             $response['data'] = $years;
+        } catch (QueryException $e) {
+
+            $response['status'] = 'error';
+            $response['message'] = $e->getMessage();
+            $response['code'] = 500;
+        } catch (Exception $th) {
+            
+            $response['status'] = 'error';
+            $response['message'] = $th->getMessage();
+            $response['code'] = 500;
+        }
+
+        return response()->json(['response' => $response], $response['code']);
+    }
+
+    public function getPaginas($dominio)
+    {
+
+        $response = [
+            'status' => 'exito',
+            'message' => '',
+            'data' => null,
+            'code' => 200
+        ];
+
+        try {
+            
+            $pagina = DB::connection('mysqlciclo')
+            ->table('cat_urlreferrer')
+            ->where('name', 'LIKE', "%$dominio%")
+            ->select('name')
+            ->get();
+
+            $response['data'] = $pagina;
+        } catch (QueryException $e) {
+
+            $response['status'] = 'error';
+            $response['message'] = $e->getMessage();
+            $response['code'] = 500;
+        } catch (Exception $th) {
+            
+            $response['status'] = 'error';
+            $response['message'] = $th->getMessage();
+            $response['code'] = 500;
+        }
+
+        return response()->json(['response' => $response], $response['code']);
+    }
+
+    public function getDominios()
+    {
+
+        $response = [
+            'status' => 'exito',
+            'message' => '',
+            'data' => null,
+            'code' => 200
+        ];
+
+        try {
+            
+            $dominio = DB::connection('mysqlciclo')
+            ->table('cat_dominios')
+            ->select('name')
+            ->get();
+
+            $response['data'] = $dominio;
         } catch (QueryException $e) {
 
             $response['status'] = 'error';

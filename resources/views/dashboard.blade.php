@@ -8,19 +8,46 @@
 
   <form id="form-filtros" class="row mb-4">
 
-    <div class="row">
+    <div class="row mt-3">
 
-      <div class="col-md-5">
-        <label for="id_campus">Campus</label>
-        <select multiple name="id_campus" class="select-invisible" id="id_campus" aria-label="campus" aria-describedby="campus">
-          <option value="TODOS">TODOS</option>
+      <div class="col-md-6">
+        <label for="id_dominio">Dominio</label>
+        <select name="id_dominio" class="form-control" id="id_dominio" aria-label="dominio" aria-describedby="dominio">
+          <!-- <option value="TODOS">TODOS</option> -->
         </select>
       </div>
 
-      <div class="col-md-7">
+      <div class="col-md-6">
+        <label for="id_pagina">Pagina</label>
+        <select multiple name="id_pagina" class="select-invisible" id="id_pagina" aria-label="pagina" aria-describedby="pagina">
+          <!-- <option value="TODOS">TODOS</option> -->
+        </select>
+      </div>
+
+    </div>
+
+    <div class="row mt-3">
+    
+      <div class="col-md-12">
+        <label for="banner">Banner</label>
+        <input type="text" class="form-control" name="banner" id="banner" placeholder="Banner separado por comas">
+      </div>
+    
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-6">
+        <label for="id_campus">Campus</label>
+        <select multiple name="id_campus" class="select-invisible" id="id_campus" aria-label="campus" aria-describedby="campus">
+          <!-- <option value="TODOS">TODOS</option> -->
+        </select>
+      </div>
+
+      <div class="col-md-6">
         <label for="id_programa">Programa</label>
         <select multiple name="id_programa" class="select-invisible" id="id_programa" aria-label="programa" aria-describedby="programa">
-          <option value="TODOS">TODOS</option>
+          <!-- <option value="TODOS">TODOS</option> -->
         </select>
       </div>
 
@@ -50,8 +77,12 @@
       </div>
 
     </div>
-  
+    
   </form>
+
+  <hr>
+
+  <h4>Resultados</h4>
 
   <!-- Indicadores iconos presente -->
   <div class="row">
@@ -63,9 +94,13 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads Totales:</p>
-                <h5 class="font-weight-bolder mb-0" id="leads-total">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads Totales (CY):</p>
+                <h5 class="font-weight-bolder mb-0" id="leads-total" style="display: inline; padding-right: 15px;">
                   0
+                </h5>
+                |
+                <h5 class="font-weight-bolder mb-0" id="leads-total-porcentaje" style="display: inline">
+                  0%
                 </h5>
               </div>
             </div>
@@ -86,9 +121,13 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads Calculadora:</p>
-                <h5 class="font-weight-bolder mb-0" id="leads-calculadora">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads Calculadora (CY):</p>
+                <h5 class="font-weight-bolder mb-0" id="leads-calculadora" style="display: inline; padding-right: 15px;">
                   0
+                </h5>
+                |
+                <h5 class="font-weight-bolder mb-0" id="leads-calculadora-porcentaje" style="display: inline;">
+                  0%
                 </h5>
               </div>
             </div>
@@ -109,9 +148,13 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads General:</p>
-                <h5 class="font-weight-bolder mb-0" id="leads-general">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads General (CY):</p>
+                <h5 class="font-weight-bolder mb-0" id="leads-general" style="display: inline; padding-right: 15px;">
                   0
+                </h5>
+                |
+                <h5 class="font-weight-bolder mb-0" id="leads-general-porcentaje" style="display: inline;">
+                  0%
                 </h5>
               </div>
             </div>
@@ -137,7 +180,7 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads Totales:</p>
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads Totales (PY):</p>
                 <h5 class="font-weight-bolder mb-0" id="leads-total-pasado">
                   0
                 </h5>
@@ -160,7 +203,7 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads Calculadora:</p>
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads Calculadora (PY):</p>
                 <h5 class="font-weight-bolder mb-0" id="leads-calculadora-pasado">
                   0
                 </h5>
@@ -183,7 +226,7 @@
           <div class="row">
             <div class="col-8">
               <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads General:</p>
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads General (PY):</p>
                 <h5 class="font-weight-bolder mb-0" id="leads-general-pasado">
                   0
                 </h5>
@@ -286,6 +329,7 @@
         shouldSort: true,
         itemSelectText: 'Presiona para seleccionar',
         placeholder: false,
+        duplicateItemsAllowed: false // Evita duplicados
       });
 
       selectCampus.classList.remove('select-invisible');
@@ -297,9 +341,33 @@
         shouldSort: true,
         itemSelectText: 'Presiona para seleccionar',
         placeholder: false,
+        duplicateItemsAllowed: false // Evita duplicados
       });
 
       select.classList.remove('select-invisible');
+
+      const selectPaginas = document.getElementById('id_pagina');
+      
+      const choicesPaginas = new Choices(selectPaginas, {
+        removeItemButton: true,
+        shouldSort: true,
+        itemSelectText: 'Presiona para seleccionar',
+        placeholder: false,
+        duplicateItemsAllowed: false // Evita duplicados
+      });
+
+      selectPaginas.classList.remove('select-invisible');
+
+      const selectDominios = document.getElementById('id_dominio');
+      
+      // const choicesDominios = new Choices(selectDominios, {
+      //   removeItemButton: true,
+      //   shouldSort: true,
+      //   itemSelectText: 'Presiona para seleccionar',
+      //   placeholder: false,
+      // });
+
+      // selectDominios.classList.remove('select-invisible');
 
       // Función para calcular dias entre un rango de dos fechas
       function diasEntreFechas(fechaInicio, fechaFin) {
@@ -481,8 +549,127 @@
           });
       }
 
+      // Función para obtener el catalogo de paginas (urlreferrer)
+      function catalogoPaginas(dominio){
+
+        choicesPaginas.clearStore;
+        let selectPaginasObj = [];
+
+          if (dominio == 'TODOS') {
+            
+            selectPaginasObj = [
+              {                        
+                'value': 'TODOS', 
+                'label': 'TODOS',
+              }
+            ];
+            choicesPaginas.setChoices(selectPaginasObj, 'value', 'label', true);
+            choicesPaginas.setChoiceByValue('TODOS');
+          } else {
+
+            fetch('/paginas/' + dominio)
+            .then(response => {
+
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Http -> ' + response.status);
+                }
+            })
+            .then(data => {
+                // console.log(data);
+                return data.response.data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                return false;
+            }).then(paginas => {
+                // console.log(users);
+                if (paginas) {
+                
+                    selectPaginasObj = [
+                      {                        
+                        'value': 'TODOS', 
+                        'lable': 'TODOS',
+                      }
+                    ];
+
+                    paginas.forEach(objeto => {
+                        selectPaginasObj.unshift(
+                          {
+                            'value': objeto.name, 
+                            'lable': objeto.name 
+                          }
+                        );
+                    });
+                    
+                    choicesPaginas.setChoices(selectPaginasObj, 'value', 'label', true);
+                    choicesPaginas.setChoiceByValue('TODOS');
+                }
+            });
+          }
+      }
+
+      // Función para obtener el catalogo de dominios (dominios)
+      function catalogoDominios(){
+
+          fetch('/dominios')
+          .then(response => {
+
+              if (response.ok) {
+                  return response.json();
+              } else {
+                  throw new Error('Http -> ' + response.status);
+              }
+          })
+          .then(data => {
+              // console.log(data);
+              return data.response.data;
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              return false;
+          }).then(dominios => {
+              // console.log(users);
+              if (dominios) {
+              
+                  // let selectDominiosObj = [
+                  //   {                        
+                  //     'value': 'TODOS', 
+                  //     'lable': 'TODOS',
+                  //   }
+                  // ];
+
+                  let optionDominios = '<option value="TODOS">TODOS</option>';
+
+                  dominios.forEach(objeto => {
+                      // selectDominiosObj.unshift(
+                      //   {
+                      //     'value': objeto.name, 
+                      //     'lable': objeto.name 
+                      //   }
+                      // );
+                      optionDominios += `<option value="${objeto.name}">${objeto.name}</option>`;
+                  });
+                  
+                  // choicesDominios.setChoices(selectDominiosObj, 'value', 'label', true);
+                  // choicesDominios.setChoiceByValue('TODOS');
+
+                  selectDominios.innerHTML = optionDominios;
+              }
+          });
+      }
+
       catalogoCampus();
       catalogoPrograma();
+      catalogoDominios();
+      catalogoPaginas('TODOS');
+
+      // Logica cuando cambiamos el dominio
+      selectDominios.addEventListener('change', function(event){
+        let dominioVal = event.target.value;
+        catalogoPaginas(dominioVal);
+      });
 
       let dateHoy = inputDate.value;
       
@@ -656,12 +843,22 @@
         });
       }
 
+      // Función para obtener porcentje
+      function porcentajeDiferencia(valorAnterior, valorNuevo) {
+          if (valorAnterior === 0) {
+              return valorNuevo > 0 ? "+100" : "0"; // Evitar división por cero
+          }
+          const diferencia = ((valorNuevo - valorAnterior) / valorAnterior) * 100;
+          const signo = diferencia > 0 ? "+" : "";
+          return signo + diferencia.toFixed(2) + "";
+      }
+
       // -----------------------------------------------------------------------
 
       // Función para obtener leads totales, leads calculadora, leads general
       function getLeads(objData){
 
-        return fetch(`/leads-ciclo?campus=${objData.campus}&programa=${objData.programa}&fechaInicio=${objData.dateFiltro}&fechaFin=${objData.dateFiltroFin}`)
+        return fetch(`/leads-ciclo?campus=${objData.campus}&programa=${objData.programa}&paginas=${objData.paginas}&dominios=${objData.dominios}&banner=${objData.banner}&fechaInicio=${objData.dateFiltro}&fechaFin=${objData.dateFiltroFin}`)
         .then(response => {
 
           if (response.ok) {
@@ -731,22 +928,34 @@
               total: dato ? dato.total : 0
             };
           });
+
+          console.log(resultado);
+
           // Hacemos que el array de dataLeadsLast coincida con los labels
-          const resultadoLast = labels.map(fecha => {
-            // Convertir la fecha a objeto Date
-            const fechaObj = new Date(fecha);
+          // const resultadoLast = labels.map(fecha => {
+          //   // Convertir la fecha a objeto Date
+          //   const fechaObj = new Date(fecha);
             
-            // Restar un año
-            fechaObj.setFullYear(fechaObj.getFullYear() - 1);
+          //   // Restar un año
+          //   fechaObj.setFullYear(fechaObj.getFullYear() - 1);
             
-            // Formatear la fecha nuevamente a string (YYYY-MM-DD)
-            const fechaAjustada = fechaObj.toISOString().split('T')[0];
+          //   // Formatear la fecha nuevamente a string (YYYY-MM-DD)
+          //   const fechaAjustada = fechaObj.toISOString().split('T')[0];
 
-            // Buscar el dato correspondiente
-            const dato = dataLeadsLast.find(d => d.hora === fechaAjustada);
+          //   // Buscar el dato correspondiente
+          //   const dato = dataLeadsLast.find(d => d.hora === fechaAjustada);
 
+          //   return {
+          //     hora: fechaAjustada,
+          //     total: dato ? dato.total : 0
+          //   };
+          // });
+
+          const resultadoLast = labels.map((fecha, index) => {
+            // Si dataLeadsLast está ordenado por fecha, puedes usar index directamente
+            const dato = dataLeadsLast[index]; // Toma el dato en la misma posición
             return {
-              hora: fechaAjustada,
+              hora: dato ? dato.hora : null, // Puedes mantener la fecha original del año pasado
               total: dato ? dato.total : 0
             };
           });
@@ -777,6 +986,21 @@
 
         document.getElementById(idIconLeads).innerText = leadsTotal;
         document.getElementById(idIconLeads + '-pasado').innerText = leadsTotalLast;
+
+        let porcentajeDif = porcentajeDiferencia(leadsTotalLast, leadsTotal);
+
+        let itemPorcentaje = document.getElementById(idIconLeads + '-porcentaje');
+
+        itemPorcentaje.innerText = porcentajeDif + '%';
+
+        console.log(porcentajeDif)
+
+        if (parseFloat(porcentajeDif) > 0) {
+          itemPorcentaje.style.color = '#82d616';        
+        } else {
+          itemPorcentaje.style.color = '#d7282f';
+        }
+
       }
 
       // Graficas de linea
@@ -844,7 +1068,10 @@
         dateFiltro: dateHoy,
         dateFiltroFin: dateHoy,
         campus: '["TODOS"]',
-        programa: '["TODOS"]'
+        programa: '["TODOS"]',
+        paginas: '["TODOS"]',
+        dominios: 'TODOS',
+        banner: ''
       };
       
       allUpdateGraph(objData);
@@ -881,6 +1108,9 @@
 
           let campus = JSON.stringify(choicesCampus.getValue(true));
           let programa = JSON.stringify(choices.getValue(true));
+          let paginas = JSON.stringify(choicesPaginas.getValue(true));
+          let dominios = document.getElementById('id_dominio').value;
+          let banner = document.getElementById('banner').value;
 
           if (choicesCampus.getValue(true) == 0) {
             throw "campus";
@@ -890,11 +1120,18 @@
             throw "programa";
           }
 
+          if (choicesPaginas.getValue(true) == 0) {
+            throw "paginas";
+          }
+
           let objData = {
             dateFiltro: dateFiltro,
             dateFiltroFin: dateFiltroFin,
             campus:  campus,
-            programa: programa
+            programa: programa,
+            paginas: paginas,
+            dominios: dominios,
+            banner : banner
           };
 
           let fechaTexto = dateFiltro;
@@ -924,7 +1161,9 @@
             mensaje = 'Selecciona un campus';          
           } else if(error == 'programa'){
             mensaje = 'Selecciona un programa';          
-          }
+          } else if(error == 'paginas'){
+            mensaje = 'Selecciona una pagina';          
+          } 
           
           Toast.fire({
             icon: "info",

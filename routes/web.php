@@ -45,6 +45,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/perfiles', [CatalogController::class, 'getPerfiles']);
 	Route::get('/campus', [CatalogController::class, 'getCampus']);
 	Route::get('/programas', [CatalogController::class, 'getProgramas']);
+	Route::get('/paginas/{dominio}', [CatalogController::class, 'getPaginas']);
+	Route::get('/dominios', [CatalogController::class, 'getDominios']);
 	Route::get('/years', [CatalogController::class, 'getYears']);
 
 	Route::get('/logout', [SessionsController::class, 'destroy']);

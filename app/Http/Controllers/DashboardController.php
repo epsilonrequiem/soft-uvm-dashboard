@@ -128,6 +128,40 @@ class DashboardController extends Controller
             $leads_general = (clone $leads)->whereIn('landingPage', ['WEB'])->get();
             $leads_total = (clone $leads)->whereIn('landingPage', ['CALCULADORA', 'WEB'])->get();
         
+            if ($tipo == 1) { // por hora
+
+                $horas_calculadora = [];
+                $horas_general = [];
+                $horas_total = [];
+
+                for ($i = 0; $i < 24; $i++) {
+                    $horas_calculadora[$i] = ['hora' => $i, 'total' => 0];
+                    $horas_general[$i] = ['hora' => $i, 'total' => 0];
+                    $horas_total[$i] = ['hora' => $i, 'total' => 0];
+                }
+
+                // Rellena con los datos reales
+                foreach ($leads_calculadora as $item) {
+                    $horas_calculadora[$item->hora]['total'] = $item->total;
+                }
+
+                foreach ($leads_general as $item) {
+                    $horas_general[$item->hora]['total'] = $item->total;
+                }
+
+                foreach ($leads_total as $item) {
+                    $horas_total[$item->hora]['total'] = $item->total;
+                }
+
+            } else {
+                
+                $horas_calculadora = $leads_calculadora;
+                $horas_general = $leads_general;
+                $horas_total = $leads_total;
+            }
+
+
+
             // --------------------------------------------------------------------
 
             $fecha_ini = new DateTime($fechaInicio);
@@ -182,16 +216,47 @@ class DashboardController extends Controller
             $leads_calculadora_last = (clone $leads_last)->whereIn('landingPage', ['CALCULADORA'])->get();
             $leads_general_last = (clone $leads_last)->whereIn('landingPage', ['WEB'])->get();
             $leads_total_last = (clone $leads_last)->whereIn('landingPage', ['CALCULADORA', 'WEB'])->get();
-        
+
+            if ($tipo == 1) { // por hora
+
+                $horas_calculadora_last = [];
+                $horas_general_last = [];
+                $horas_total_last = [];
+
+                for ($i = 0; $i < 24; $i++) {
+                    $horas_calculadora_last[$i] = ['hora' => $i, 'total' => 0];
+                    $horas_general_last[$i] = ['hora' => $i, 'total' => 0];
+                    $horas_total_last[$i] = ['hora' => $i, 'total' => 0];
+                }
+
+                // Rellena con los datos reales
+                foreach ($leads_calculadora_last as $item) {
+                    $horas_calculadora_last[$item->hora]['total'] = $item->total;
+                }
+
+                foreach ($leads_general_last as $item) {
+                    $horas_general_last[$item->hora]['total'] = $item->total;
+                }
+
+                foreach ($leads_total_last as $item) {
+                    $horas_total_last[$item->hora]['total'] = $item->total;
+                }
+            } else {
+                
+                $horas_calculadora_last = $leads_calculadora_last;
+                $horas_general_last = $leads_general_last;
+                $horas_total_last = $leads_total_last;
+            }
+            
             // ----------------------------------------------------------------------
 
             $response['datos'] = [
-                'leads_calculadora' => $leads_calculadora,
-                'leads_general' => $leads_general,
-                'leads_total' => $leads_total,
-                'leads_calculadora_last' => $leads_calculadora_last,
-                'leads_general_last' => $leads_general_last,
-                'leads_total_last' => $leads_total_last,
+                'leads_calculadora' => $horas_calculadora,
+                'leads_general' => $horas_general,
+                'leads_total' => $horas_total,
+                'leads_calculadora_last' => $horas_calculadora_last,
+                'leads_general_last' => $horas_general_last,
+                'leads_total_last' => $horas_total_last,
             ];
         } catch (QueryException $e) {
 

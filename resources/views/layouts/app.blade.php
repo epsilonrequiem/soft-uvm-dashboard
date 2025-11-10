@@ -81,6 +81,7 @@
   @stack('rtl')
   @stack('dashboard')
   @stack('usuarios')
+  @stack('login')
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -92,10 +93,12 @@
 
     const mediaQuery = window.matchMedia('(max-width: 1199.98px)');
 
-    let menuHamburguesa = document.getElementById('sidenav-main');
-    let botonHamburguesa = document.getElementById('iconNavbarSidenav');
+    if (document.getElementById('iconNavbarSidenav')) {
 
-    botonHamburguesa.addEventListener('click', () => {
+      let menuHamburguesa = document.getElementById('sidenav-main');
+      let botonHamburguesa = document.getElementById('iconNavbarSidenav');
+
+      botonHamburguesa.addEventListener('click', () => {
         if (mediaQuery.matches) {
             // Verifica si está visible
             if (menuHamburguesa.style.transform === 'translateX(0px)' || menuHamburguesa.style.transform === 'translateX(0)') {
@@ -106,7 +109,8 @@
                 menuHamburguesa.style.transform = 'translateX(0)';
             }
         }
-    });
+      });
+    }
 
   </script>
 

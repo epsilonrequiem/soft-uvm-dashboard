@@ -59,3 +59,10 @@
   </main>
 
 @endsection
+@push('login')
+<script>
+  setInterval(function() {
+      fetch('/keep-alive', { method: 'GET', credentials: 'same-origin' });
+  }, 600000); // cada 10 minutos
+</script>
+@endpush

@@ -73,7 +73,7 @@
       </div>
 
       <div class="col-md-3 d-flex align-items-end">
-        <button type="submit" id="filtrar" class="btn btn-uvm bg-gradient-uvm mb-0">Buscar</button>
+        <button type="submit" id="filtrar" class="btn btn-uvm bg-gradient-uvm-alterno mb-0">Buscar</button>
       </div>
 
     </div>

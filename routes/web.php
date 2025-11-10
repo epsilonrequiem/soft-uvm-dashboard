@@ -50,6 +50,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/years', [CatalogController::class, 'getYears']);
 
 	Route::get('/logout', [SessionsController::class, 'destroy']);
+	
+	Route::get('/keep-alive', function () {
+		return response()->json(['status' => 'ok']);
+	});
 
 	// Route::get('billing', function () {
 	// 	return view('billing');

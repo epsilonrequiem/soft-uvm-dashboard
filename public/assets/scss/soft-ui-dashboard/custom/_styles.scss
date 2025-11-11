@@ -7,8 +7,13 @@
 .btn-uvm:hover {
     color: $soft-background-color;
 }
+
 .bg-gradient-uvm {
     background-image: linear-gradient(310deg, $uvm-1 0%, $uvm-2 100%);
+}
+
+.bg-gradient-uvm-icon {
+    background-image: linear-gradient(310deg, $uvm-3-alt 0%, $uvm-4-alt 100%);
 }
 
 .bg-gradient-uvm-alt {
@@ -16,7 +21,7 @@
 }
 
 .bg-gradient-uvm-alterno{
-    background-image: linear-gradient(310deg, $primary 0%, $secondary 100%);
+    background-color: $uvm-5-alt;
 }
 
 .form-check-input-uvm:checked{
@@ -86,4 +91,8 @@
 
 .select-invisible {
   visibility: hidden;
+}
+
+h6{
+    font-size: 14px;
 }

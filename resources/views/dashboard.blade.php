@@ -95,17 +95,22 @@
             <div class="col-8">
               <div class="numbers">
                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads Totales (CY):</p>
-                <h5 class="font-weight-bolder mb-0" id="leads-total" style="display: inline; padding-right: 15px;">
-                  0
-                </h5>
-                |
-                <h5 class="font-weight-bolder mb-0" id="leads-total-porcentaje" style="display: inline">
-                  0%
-                </h5>
+                <div style="display: flex; flex-direction: column;">
+                  <h6 class="font-weight-bolder mb-0" id="leads-total" style="display: inline;">
+                    0
+                  </h6>
+                  <h6 class="font-weight-bolder mb-0" id="leads-total-porcentaje">
+                    Dia: 0%
+                  </h6>
+                  <h6 class="font-weight-bolder mb-0" id="leads-total-porcentaje-hora">
+                    Ahora: 0%
+                  </h6>
+                </div>
+
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-uvm shadow text-center border-radius-md">
+              <div class="icon icon-shape bg-gradient-uvm-icon shadow text-center border-radius-md">
                 <i class="fa-solid fa-users text-lg opacity-10" aria-hidden="true"></i>
               </div>
             </div>
@@ -122,17 +127,25 @@
             <div class="col-8">
               <div class="numbers">
                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads Calculadora (CY):</p>
-                <h5 class="font-weight-bolder mb-0" id="leads-calculadora" style="display: inline; padding-right: 15px;">
-                  0
-                </h5>
-                |
-                <h5 class="font-weight-bolder mb-0" id="leads-calculadora-porcentaje" style="display: inline;">
-                  0%
-                </h5>
+
+                <div style="display: flex; flex-direction: column;">
+
+                  <h6 class="font-weight-bolder mb-0" id="leads-calculadora" style="display: inline;">
+                    0
+                  </h5>
+                  <h6 class="font-weight-bolder mb-0" id="leads-calculadora-porcentaje" style="display: inline;">
+                    Dia: 0%
+                  </h6>
+                  <h6 class="font-weight-bolder mb-0" id="leads-calculadora-porcentaje-hora" style="display: inline;">
+                    Ahora: 0%
+                  </h6>
+
+                </div>
+
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-uvm shadow text-center border-radius-md">
+              <div class="icon icon-shape bg-gradient-uvm-icon shadow text-center border-radius-md">
                 <i class="fa-solid fa-calculator text-lg opacity-10" aria-hidden="true"></i>
               </div>
             </div>
@@ -149,17 +162,25 @@
             <div class="col-8">
               <div class="numbers">
                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads General (CY):</p>
-                <h5 class="font-weight-bolder mb-0" id="leads-general" style="display: inline; padding-right: 15px;">
-                  0
-                </h5>
-                |
-                <h5 class="font-weight-bolder mb-0" id="leads-general-porcentaje" style="display: inline;">
-                  0%
-                </h5>
+                
+                <div style="display: flex; flex-direction: column;">
+
+                  <h6 class="font-weight-bolder mb-0" id="leads-general" style="display: inline;">
+                    0
+                  </h6>
+                  <h6 class="font-weight-bolder mb-0" id="leads-general-porcentaje" style="display: inline;">
+                    Dia: 0%
+                  </h6>
+                  <h6 class="font-weight-bolder mb-0" id="leads-general-porcentaje-hora" style="display: inline;">
+                    Ahora: 0%
+                  </h6>
+
+                </div>
+
               </div>
             </div>
             <div class="col-4 text-end">
-              <div class="icon icon-shape bg-gradient-uvm shadow text-center border-radius-md">
+              <div class="icon icon-shape bg-gradient-uvm-icon shadow text-center border-radius-md">
                 <i class="fa-solid fa-filter text-lg opacity-10" aria-hidden="true"></i>
               </div>
             </div>
@@ -181,9 +202,9 @@
             <div class="col-8">
               <div class="numbers">
                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads Totales (PY):</p>
-                <h5 class="font-weight-bolder mb-0" id="leads-total-pasado">
+                <h6 class="font-weight-bolder mb-0" id="leads-total-pasado">
                   0
-                </h5>
+                </h6>
               </div>
             </div>
             <div class="col-4 text-end">
@@ -204,9 +225,9 @@
             <div class="col-8">
               <div class="numbers">
                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads Calculadora (PY):</p>
-                <h5 class="font-weight-bolder mb-0" id="leads-calculadora-pasado">
+                <h6 class="font-weight-bolder mb-0" id="leads-calculadora-pasado">
                   0
-                </h5>
+                </h6>
               </div>
             </div>
             <div class="col-4 text-end">
@@ -227,9 +248,9 @@
             <div class="col-8">
               <div class="numbers">
                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Leads General (PY):</p>
-                <h5 class="font-weight-bolder mb-0" id="leads-general-pasado">
+                <h6 class="font-weight-bolder mb-0" id="leads-general-pasado">
                   0
-                </h5>
+                </h6>
               </div>
             </div>
             <div class="col-4 text-end">
@@ -711,9 +732,10 @@
       function createGraphLine(ctxn, leadsInicial, label, leadsInicialLast, labelLast, labels){
 
         const gradientStroke1 = ctxn.createLinearGradient(0, 230, 0, 50);
-        gradientStroke1.addColorStop(1, 'rgba(215, 40, 47, 1)');
-        gradientStroke1.addColorStop(0.2, 'rgba(215, 40, 47, 0.5)');
-        gradientStroke1.addColorStop(0, 'rgba(215, 40, 47, 0.2)'); 
+
+        gradientStroke1.addColorStop(1, 'rgba(33, 158, 188, 0.8)');
+        gradientStroke1.addColorStop(0.5, 'rgba(33, 158, 188, 0.3)');
+        gradientStroke1.addColorStop(0, 'rgba(33, 158, 188, 0)');
 
         const gradientStroke2 = ctxn.createLinearGradient(0, 230, 0, 50);
         gradientStroke2.addColorStop(1, 'rgba(19, 17, 17, 1)');
@@ -729,7 +751,7 @@
                 tension: 0.4,
                 borderWidth: 0,
                 pointRadius: 0,
-                borderColor: "#d7282f",
+                borderColor: "#219ebc",
                 borderWidth: 3,
                 backgroundColor: gradientStroke1,
                 fill: true,
@@ -820,8 +842,8 @@
               {
                 label: labelBar,
                 data: leadsInicialBar,
-                borderColor: "#d7282f",
-                backgroundColor: "rgba(215, 40, 47, 0.5)",
+                borderColor: "#63B3ED",
+                backgroundColor: "rgba(89, 108, 255, 1)')",
                 borderWidth: 1
               },
               {
@@ -888,6 +910,8 @@
 
         let leadsTotal = 0;
         let leadsTotalLast = 0;
+        let leadsTotalHora = 0;
+        let leadsTotalLastHora = 0;
 
         // Validamos si el por dia o hora
         if (dateFiltro == dateFiltroFin) { // hora
@@ -897,16 +921,35 @@
           let leadsInicial = Array(24).fill(0);
           let leadsInicialLast = Array(24).fill(0);
 
+          const horaActual = new Date().getHours();
+
           dataLeads.forEach((element, index) => {
             leadsInicial[index] = element.total;
             leadsTotal = leadsTotal + element.total;  
+            const horaElemento = parseInt(element.hora); // o extraer de timestamp
+            if (horaElemento <= horaActual) {
+                leadsTotalHora += element.total;
+            }
           });
 
           dataLeadsLast.forEach((element, index) => {
             leadsInicialLast[index] = element.total;
             leadsTotalLast = leadsTotalLast + element.total; 
+            const horaElemento = parseInt(element.hora); // o extraer de timestamp
+            if (horaElemento <= horaActual) {
+                leadsTotalLastHora += element.total;
+            }
           });
           
+          const today = new Date();
+          const formattedDate = today.toISOString().split('T')[0];
+          console.log(formattedDate);
+
+          if (dateFiltro != formattedDate) {
+            leadsTotalHora = leadsTotal;
+            leadsTotalLastHora = leadsTotalLast;
+          }
+
           graphN.data.datasets[0].data = leadsInicial;
           graphN.data.datasets[1].data = leadsInicialLast;
           graphN.data.datasets[0].label = 'Total de leads ' + year;
@@ -988,17 +1031,31 @@
         document.getElementById(idIconLeads + '-pasado').innerText = leadsTotalLast;
 
         let porcentajeDif = porcentajeDiferencia(leadsTotalLast, leadsTotal);
+        let porcentajeDifHora = porcentajeDiferencia(leadsTotalLastHora, leadsTotalHora);
 
         let itemPorcentaje = document.getElementById(idIconLeads + '-porcentaje');
+        let itemPorcentajeHora = document.getElementById(idIconLeads + '-porcentaje-hora');
 
-        itemPorcentaje.innerText = porcentajeDif + '%';
+        itemPorcentaje.innerText = 'Dia: ' + porcentajeDif + '%';
+        itemPorcentajeHora.innerText =  'Ahora: ' + porcentajeDifHora + '%';
 
         console.log(porcentajeDif)
+        console.log(porcentajeDifHora)
 
         if (parseFloat(porcentajeDif) > 0) {
           itemPorcentaje.style.color = '#82d616';        
+        } else if(parseFloat(porcentajeDif) == 0){
+          itemPorcentaje.style.color = '#344767';        
         } else {
           itemPorcentaje.style.color = '#d7282f';
+        }
+
+        if (parseFloat(porcentajeDifHora) > 0) {
+          itemPorcentajeHora.style.color = '#82d616';        
+        } else if(parseFloat(porcentajeDifHora) == 0){
+          itemPorcentajeHora.style.color = '#344767';        
+        } else {
+          itemPorcentajeHora.style.color = '#d7282f';
         }
 
       }

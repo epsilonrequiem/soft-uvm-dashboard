@@ -20,11 +20,11 @@
                     @csrf
                     <label>Email</label>
                     <div class="mb-3">
-                      <input type="email" class="form-control" name="email" id="email" placeholder="Correo" value="" aria-label="Email" aria-describedby="email-addon">
+                      <input type="email" class="form-control" name="email" id="email" placeholder="Correo" value="" aria-label="Email" aria-describedby="email-addon" required>
                     </div>
                     <label>Password</label>
                     <div class="mb-3">
-                      <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" value="" aria-label="Password" aria-describedby="password-addon">
+                      <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" value="" aria-label="Password" aria-describedby="password-addon" required>
                     </div>
                     @error('login')
                       <p class="text-danger text-xs mt-4">{{ $message }}</p>

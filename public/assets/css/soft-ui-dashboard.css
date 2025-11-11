@@ -23298,12 +23298,16 @@ pre[class*=language-] {
   background-image: linear-gradient(310deg, #d7282f 0%, #b22227 100%);
 }
 
+.bg-gradient-uvm-icon {
+  background-image: linear-gradient(310deg, #219ebc 0%, #1B7E91 100%);
+}
+
 .bg-gradient-uvm-alt {
-  background-image: linear-gradient(310deg, #131111 0%, #8F8C8C 100%);
+  background-image: linear-gradient(310deg, #023047 0%, #8F8C8C 100%);
 }
 
 .bg-gradient-uvm-alterno {
-  background-image: linear-gradient(310deg, #cb0c9f 0%, #8392AB 100%);
+  background-color: #ffb703;
 }
 
 .form-check-input-uvm:checked {
@@ -23376,10 +23380,14 @@ pre[class*=language-] {
 }
 
 .choices__list--multiple .choices__item {
-  background-color: #131111;
+  background-color: #023047;
   /* verde Bootstrap */
 }
 
 .select-invisible {
   visibility: hidden;
+}
+
+h6, .h6 {
+  font-size: 14px;
 }

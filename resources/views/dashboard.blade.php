@@ -763,7 +763,7 @@
                 tension: 0.4,
                 borderWidth: 0,
                 pointRadius: 0,
-                borderColor: "#000000",
+                borderColor: "#5C5C5C",
                 borderWidth: 3,
                 backgroundColor: gradientStroke2,
                 fill: true,
@@ -849,7 +849,7 @@
               {
                 label: labelLastBar,
                 data: leadsInicialLastBar,
-                borderColor: "#000000",
+                borderColor: "#1A1A1A",
                 backgroundColor: "rgba(143, 140, 140, 0.5)",
                 borderWidth: 1
               }
@@ -1039,7 +1039,9 @@
         itemPorcentaje.innerText = 'Dia: ' + porcentajeDif + '%';
         itemPorcentajeHora.innerText =  'Ahora: ' + porcentajeDifHora + '%';
 
-        console.log(porcentajeDif)
+        // console.log(porcentajeDif)
+        console.log(leadsTotalLastHora)
+        console.log(leadsTotalHora)
         console.log(porcentajeDifHora)
 
         if (parseFloat(porcentajeDif) > 0) {

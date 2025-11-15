@@ -160,8 +160,6 @@ class DashboardController extends Controller
                 $horas_total = $leads_total;
             }
 
-
-
             // --------------------------------------------------------------------
 
             $fecha_ini = new DateTime($fechaInicio);

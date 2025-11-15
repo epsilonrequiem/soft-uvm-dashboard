@@ -72,10 +72,19 @@
         <input type="date" class="form-control" id="date-filtro-fin" name="date-filtro-fin" value="<?= date('Y-m-d') ?>" required>
       </div>
 
+      <div class="col-md-3">
+        <label for="date-filtro-hora" class="form-label">Hora</label>
+        <input type="number" min="0" max="23" step="1" placeholder="00" class="form-control" id="date-filtro-hora" name="date-filtro-hora" value="<?= date('H') ?>" required>
+      </div>
+
+    </div>
+
+    <div class="row mt-3"> 
+      
       <div class="col-md-3 d-flex align-items-end">
         <button type="submit" id="filtrar" class="btn btn-uvm bg-gradient-uvm-alterno mb-0">Buscar</button>
       </div>
-
+    
     </div>
     
   </form>
@@ -103,7 +112,10 @@
                     Dia: 0%
                   </h6>
                   <h6 class="font-weight-bolder mb-0" id="leads-total-porcentaje-hora">
-                    Ahora: 0%
+                    Acumulado: 0%
+                  </h6>
+                  <h6 class="font-weight-bolder mb-0" id="leads-total-porcentaje-hora-actual">
+                    Hora Actual: 0%
                   </h6>
                 </div>
 
@@ -137,7 +149,10 @@
                     Dia: 0%
                   </h6>
                   <h6 class="font-weight-bolder mb-0" id="leads-calculadora-porcentaje-hora" style="display: inline;">
-                    Ahora: 0%
+                    Acumulado: 0%
+                  </h6>
+                  <h6 class="font-weight-bolder mb-0" id="leads-calculadora-porcentaje-hora-actual">
+                    Hora Actual: 0%
                   </h6>
 
                 </div>
@@ -172,7 +187,10 @@
                     Dia: 0%
                   </h6>
                   <h6 class="font-weight-bolder mb-0" id="leads-general-porcentaje-hora" style="display: inline;">
-                    Ahora: 0%
+                    Acumulado: 0%
+                  </h6>
+                  <h6 class="font-weight-bolder mb-0" id="leads-general-porcentaje-hora-actual">
+                    Hora Actual: 0%
                   </h6>
 
                 </div>
@@ -912,6 +930,8 @@
         let leadsTotalLast = 0;
         let leadsTotalHora = 0;
         let leadsTotalLastHora = 0;
+        let leadsTotalHoraAct = 0;
+        let leadsTotalLastHoraAct = 0;
 
         // Validamos si el por dia o hora
         if (dateFiltro == dateFiltroFin) { // hora
@@ -921,7 +941,8 @@
           let leadsInicial = Array(24).fill(0);
           let leadsInicialLast = Array(24).fill(0);
 
-          const horaActual = new Date().getHours();
+          // const horaActual = new Date().getHours();
+          const horaActual = document.getElementById('date-filtro-hora').value;
 
           dataLeads.forEach((element, index) => {
             leadsInicial[index] = element.total;
@@ -930,6 +951,9 @@
             if (horaElemento <= horaActual) {
                 leadsTotalHora += element.total;
             }
+            if (horaElemento == horaActual) {
+                leadsTotalHoraAct += element.total;
+            }
           });
 
           dataLeadsLast.forEach((element, index) => {
@@ -937,7 +961,10 @@
             leadsTotalLast = leadsTotalLast + element.total; 
             const horaElemento = parseInt(element.hora); // o extraer de timestamp
             if (horaElemento <= horaActual) {
-                leadsTotalLastHora += element.total;
+              leadsTotalLastHora += element.total;
+            }
+            if (horaElemento == horaActual) {
+              leadsTotalLastHoraAct += element.total;
             }
           });
           
@@ -945,10 +972,10 @@
           const formattedDate = today.toISOString().split('T')[0];
           console.log(formattedDate);
 
-          if (dateFiltro != formattedDate) {
-            leadsTotalHora = leadsTotal;
-            leadsTotalLastHora = leadsTotalLast;
-          }
+          // if (dateFiltro != formattedDate) {
+          //   leadsTotalHora = leadsTotal;
+          //   leadsTotalLastHora = leadsTotalLast;
+          // }
 
           graphN.data.datasets[0].data = leadsInicial;
           graphN.data.datasets[1].data = leadsInicialLast;
@@ -1032,17 +1059,25 @@
 
         let porcentajeDif = porcentajeDiferencia(leadsTotalLast, leadsTotal);
         let porcentajeDifHora = porcentajeDiferencia(leadsTotalLastHora, leadsTotalHora);
+        let porcentajeDifHoraAct = porcentajeDiferencia(leadsTotalLastHoraAct, leadsTotalHoraAct);
 
         let itemPorcentaje = document.getElementById(idIconLeads + '-porcentaje');
         let itemPorcentajeHora = document.getElementById(idIconLeads + '-porcentaje-hora');
+        let itemPorcentajeHoraAct = document.getElementById(idIconLeads + '-porcentaje-hora-actual');
+        
+        if (dateFiltro == dateFiltroFin) { // hora
+          itemPorcentaje.innerText = 'Dia: ' + porcentajeDif + '%';
+        } else {
+          itemPorcentaje.innerText = 'Rango Dias: ' + porcentajeDif + '%';
+        }
 
-        itemPorcentaje.innerText = 'Dia: ' + porcentajeDif + '%';
-        itemPorcentajeHora.innerText =  'Ahora: ' + porcentajeDifHora + '%';
-
+        itemPorcentajeHora.innerText =  'Acumulado: ' + porcentajeDifHora + '%';
+        itemPorcentajeHoraAct.innerText = 'Hora Actual: ' + porcentajeDifHoraAct + '%';
+        
         // console.log(porcentajeDif)
-        console.log(leadsTotalLastHora)
-        console.log(leadsTotalHora)
-        console.log(porcentajeDifHora)
+        // console.log(leadsTotalLastHora)
+        // console.log(leadsTotalHora)
+        // console.log(porcentajeDifHora)
 
         if (parseFloat(porcentajeDif) > 0) {
           itemPorcentaje.style.color = '#82d616';        
@@ -1058,6 +1093,14 @@
           itemPorcentajeHora.style.color = '#344767';        
         } else {
           itemPorcentajeHora.style.color = '#d7282f';
+        }
+
+        if (parseFloat(porcentajeDifHoraAct) > 0) {
+          itemPorcentajeHoraAct.style.color = '#82d616';        
+        } else if(parseFloat(porcentajeDifHoraAct) == 0){
+          itemPorcentajeHoraAct.style.color = '#344767';        
+        } else {
+          itemPorcentajeHoraAct.style.color = '#d7282f';
         }
 
       }

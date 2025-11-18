@@ -751,9 +751,9 @@
 
         const gradientStroke1 = ctxn.createLinearGradient(0, 230, 0, 50);
 
-        gradientStroke1.addColorStop(1, 'rgba(33, 158, 188, 0.8)');
-        gradientStroke1.addColorStop(0.5, 'rgba(33, 158, 188, 0.3)');
-        gradientStroke1.addColorStop(0, 'rgba(33, 158, 188, 0)');
+        gradientStroke1.addColorStop(1, 'rgba(114, 9, 183, 0.8)');
+        gradientStroke1.addColorStop(0.5, 'rgba(114, 9, 183, 0.3)');
+        gradientStroke1.addColorStop(0, 'rgba(114, 9, 183, 0)');
 
         const gradientStroke2 = ctxn.createLinearGradient(0, 230, 0, 50);
         gradientStroke2.addColorStop(1, 'rgba(19, 17, 17, 1)');
@@ -769,7 +769,7 @@
                 tension: 0.4,
                 borderWidth: 0,
                 pointRadius: 0,
-                borderColor: "#219ebc",
+                borderColor: "#7209b7",
                 borderWidth: 3,
                 backgroundColor: gradientStroke1,
                 fill: true,
@@ -860,8 +860,8 @@
               {
                 label: labelBar,
                 data: leadsInicialBar,
-                borderColor: "#63B3ED",
-                backgroundColor: "rgba(89, 108, 255, 1)')",
+                borderColor: "#560bad",
+                backgroundColor: "rgba(114, 9, 183, 1)",
                 borderWidth: 1
               },
               {

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 use App\Models\Perfil;
 use App\Models\Year;
+use Exception;
 
 class CatalogController extends Controller
 {

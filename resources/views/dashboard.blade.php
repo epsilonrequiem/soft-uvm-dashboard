@@ -35,6 +35,19 @@
     
     </div>
 
+    <div class="row mt-3">
+
+      <div class="col-md-3">
+        <label for="marcable">Número marcable</label>
+        <select name="marcable" id="marcable" class="form-control" aria-label="marcable">
+          <option value="TODOS">Todos</option>
+          <option value="1">Marcable</option>
+          <option value="0">No marcable</option>
+        </select>
+      </div>
+
+    </div>
+
     <div class="row">
 
       <div class="col-md-6">
@@ -898,7 +911,7 @@
       // Función para obtener leads totales, leads calculadora, leads general
       function getLeads(objData){
 
-        return fetch(`/leads-ciclo?campus=${objData.campus}&programa=${objData.programa}&paginas=${objData.paginas}&dominios=${objData.dominios}&banner=${objData.banner}&fechaInicio=${objData.dateFiltro}&fechaFin=${objData.dateFiltroFin}`)
+        return fetch(`/leads-ciclo?campus=${objData.campus}&programa=${objData.programa}&paginas=${objData.paginas}&dominios=${objData.dominios}&banner=${objData.banner}&marcable=${objData.marcable}&fechaInicio=${objData.dateFiltro}&fechaFin=${objData.dateFiltroFin}`)
         .then(response => {
 
           if (response.ok) {
@@ -1173,7 +1186,8 @@
         programa: '["TODOS"]',
         paginas: '["TODOS"]',
         dominios: 'TODOS',
-        banner: ''
+        banner: '',
+        marcable: 'TODOS'
       };
       
       allUpdateGraph(objData);
@@ -1213,6 +1227,7 @@
           let paginas = JSON.stringify(choicesPaginas.getValue(true));
           let dominios = document.getElementById('id_dominio').value;
           let banner = document.getElementById('banner').value;
+          let marcable = document.getElementById('marcable').value;
 
           if (choicesCampus.getValue(true) == 0) {
             throw "campus";
@@ -1233,7 +1248,8 @@
             programa: programa,
             paginas: paginas,
             dominios: dominios,
-            banner : banner
+            banner : banner,
+            marcable: marcable
           };
 
           let fechaTexto = dateFiltro;

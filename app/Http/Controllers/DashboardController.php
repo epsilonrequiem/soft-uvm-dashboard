@@ -64,6 +64,7 @@ class DashboardController extends Controller
         $dominios = $request->input('dominios');
         $paginas = json_decode($request->input('paginas'), true);
         $banner = array_filter(explode(",", $request->input('banner', '')));
+        $marcable = $request->input('marcable', 'TODOS'); // 'TODOS' | '1' (marcable) | '0' (no marcable)
 
         $tipo = 2; // por dia
         // Validamos sin las fechas son iguales
@@ -110,6 +111,10 @@ class DashboardController extends Controller
 
             if (count($banner) >= 1) {
                 $leads->whereIn('banner', $banner);
+            }
+
+            if (in_array($marcable, ['0', '1'], true)) {
+                $leads->where('marcable', (int) $marcable);
             }
 
             $leads->whereBetween('fechaRegistro', [$fechaInicio.' 00:00:00', $fechaFin.' 23:59:59']);
@@ -197,6 +202,10 @@ class DashboardController extends Controller
 
             if (count($banner) >= 1) {
                 $leads_last->whereIn('banner', $banner);
+            }
+
+            if (in_array($marcable, ['0', '1'], true)) {
+                $leads_last->where('marcable', (int) $marcable);
             }
 
             $leads_last->whereBetween('fechaRegistro', [$fecha_last_inicio.' 00:00:00', $fecha_last_fin.' 23:59:59']);
